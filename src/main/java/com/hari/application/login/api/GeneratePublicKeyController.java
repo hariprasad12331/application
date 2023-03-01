@@ -23,7 +23,7 @@ public class GeneratePublicKeyController {
     @RequestMapping(value = "/api/generate-public-key",method = {RequestMethod.POST})
     public String generatePublicKey(@RequestBody GeneratePublicKeyPayload generatePublicKeyPayload){
         String publicKey =  this.generatePublicKeyService.generatePublicKey(generatePublicKeyPayload);
-        return null;
+        return publicKey;
     }
 
     

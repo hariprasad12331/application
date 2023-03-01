@@ -16,8 +16,17 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "h_appuser")
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser  implements SpringUser{
 
     @Id
@@ -56,6 +65,9 @@ public class AppUser  implements SpringUser{
 
     @Column(name = "is_deleted", nullable = false)
     private boolean deleted;
+
+    @Column(name =" mobile_no")
+    private String mobileNumber;
 
     @ManyToMany
     @JoinTable(name = "h_appuser_role", joinColumns = @JoinColumn(name = "appuser_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
