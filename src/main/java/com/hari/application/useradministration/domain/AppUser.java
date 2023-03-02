@@ -1,6 +1,8 @@
 package com.hari.application.useradministration.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser  implements SpringUser{
+public class AppUser implements SpringUser{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,20 +78,29 @@ public class AppUser  implements SpringUser{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+        return populateGrantedAuthorities();
+    }
+
+    private List<GrantedAuthority> populateGrantedAuthorities() {
+        final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (final Role role : this.roles) {
+            final Collection<Permission> permissions = role.getPermissions();
+            for (final Permission permission : permissions) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(permission.getCode()));
+                grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + permission.getCode()));
+            }
+        }
+        return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+       return this.username;
     }
 
     @Override
