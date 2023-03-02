@@ -6,9 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hari.application.login.data.GeneratePublicKeyPayload;
 
@@ -18,7 +20,7 @@ public class GeneratePublicKeyService{
     @Autowired
     RedisCacheManager redisCacheManager;
 
-
+    @Transactional
     public String generatePublicKey(GeneratePublicKeyPayload generatePublicKeyPayload) {
         //to do check if user is already present and return public key
         // move to diff  service

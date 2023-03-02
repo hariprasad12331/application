@@ -6,6 +6,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 
 import javax.crypto.Cipher;
 import javax.security.auth.DestroyFailedException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -28,7 +29,8 @@ public class UserAdministrationWritePlatformService {
         this.redisCacheManager = redisCacheManager;
         this.appUserRepository = appUserRepository;
     }
-
+    
+    @Transactional
     public String createuser(CreateUserPayload createUserPayload) {
         //move this to validator class
         validate(createUserPayload);
